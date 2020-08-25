@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--leAFLET JS AND CSS -->
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <!--LEAFLET DRAW -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <!--DATA SET AND TURF JS -->
+    <script src="data/hospilals.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+    <link rel="stylesheet" href="js/MarkerCluster.css">
+    <link rel="stylesheet" href="js/MarkerCluster.Default.css">
+    <script src="js/leaflet.markercluster-src.js"></script>
+    <script src="data/hospilals.js"></script>
+    <script src="data/realworld.388.js"></script>
+</head>
+<style>
+    #mapid {
+        height: 500px;
+    }
+</style>
+
+<body>
+    <div id="mapid"></div>
+
+    <script>
+        var map = L.map('mapid').setView([-37.82, 175.24], 6);
+
+        var openstreetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([-37.82, 175.24]).addTo(map).bindPopup('Nairobi Kenya.<br> Easily customizable.')
+
+
+        var markers = new L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true
+        });
+
+        for (var i = 0; i < addressPoints.length; i++) {
+            var a = addressPoints[i];
+            var title = a[2];
+            var marker = L.marker(new L.LatLng(a[0], a[1]), {
+                title: title
+            });
+            marker.bindPopup(title);
+            markers.addLayer(marker);
+        }
+        map.addLayer(markers);
+    </script>
+</body>
+
+</html>
